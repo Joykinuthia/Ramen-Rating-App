@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin: 30px;
+}
+
+#ramen-menu {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+
+#ramen-detail img:hover {
+    transform: scale(1.1);
+}
+
+
+#ramen-detail {
+    margin-top: 30px;
+}
+#ramen-detail img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10%;
+    cursor: pointer;
+    border: 2px solid black;
+    transition: transform 0.2s;
+    margin: 5px;
+
+}
+
+form {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 50%;
+    margin: auto;
+}
+
+input button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+}
