@@ -1,63 +1,64 @@
 
+document.addEventListener('DOMContentLoaded', () => {
+  const ramenMenu = document.getElementById('ramen-menu');
+  const detailImage = document.querySelector('#ramen-detail .detail-image');
+  const ramenName = document.querySelector('#ramen-detail .ramen-name');
+  const restaurant = document.querySelector('#ramen-detail .restaurant');
+  const ratingDisplay = document.getElementById('rating-display');
+  const commentDisplay = document.getElementById('comment-display');
+  const newRamenForm = document.getElementById('new-ramen-form');
+  const newImageInput = document.getElementById('new-image');
 
-const handleClick = (ramen) => {
-  document.querySelector("#ramen-detail .detail-image").src = ramen.image;
-  document.querySelector("#ramen-detail .detail-image").alt = ramen.name;
-  document.querySelector("#ramen-detail .name").innerText = ramen.name;
-  document.querySelector("#ramen-detail .restaurant").innerText = ramen.restaurant;
-  document.getElementById("rating-display").innerText = ramen.rating;
-  document.getElementById("comment-display").innerText = ramen.comment;
-};
-
-const displayRamen = (ramenItem) => {
-  const ramenMenu = document.getElementById("ramen-menu");
-  const ramenImg = document.createElement("img");
-  ramenImg.src = ramenItem.image;
-  ramenImg.alt = ramenItem.name;
-  ramenImg.classList.add("image-slider");
-  ramenImg.addEventListener("click", () => handleClick(ramenItem));
-  ramenMenu.appendChild(ramenImg);
-};
-
-const handleSubmit = (event) => {
-  event.preventDefault();
-  const form = event.target;
-  const newRamenItem = {
-    name: form["new-name"].value,
-    restaurant: form.restaurant.value,
-    image: form.image.value,
-    rating: form.rating.value,
-    comment: form["new-comment"].value,
+  const fetchRamens = () => {
+    fetch('http://localhost:3000/ramens')
+      .then(response => response.json())
+      .then(data => data.forEach(displayRamen))
+      .catch(error => console.error('Error fetching ramens:', error));
   };
-  displayRamen(newRamenItem);
-  form.reset();
-};
 
-const addSubmitListener = () => {
-  document.querySelector("#new-ramen").addEventListener("submit", handleSubmit);
-};
+  const displayRamen = (ramen) => {
+    const ramenImg = document.createElement('img');
+    ramenImg.src = ramen.image;
+    ramenImg.alt = ramen.name;
+    ramenImg.classList.add('image-slider');
+    ramenImg.addEventListener('click', () => {
+      handleClick(ramen);
+      newImageInput.value = ramen.image; // Auto-fill the image URL input
+    });
+    ramenMenu.appendChild(ramenImg);
+  };
 
-const displayRamens = () => {
-  fetch("http://localhost:3000/ramens")
-    .then((response) => response.json())
-    .then((ramens) => {
-      document.getElementById("ramen-menu").innerHTML = "";
-      ramens.forEach(displayRamen);
+  const handleClick = (ramen) => {
+    detailImage.src = ramen.image;
+    detailImage.alt = ramen.name;
+    ramenName.innerText = ramen.name;
+    restaurant.innerText = ramen.restaurant;
+    ratingDisplay.innerText = ramen.rating;
+    commentDisplay.innerText = ramen.comment;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newRamen = {
+      name: event.target['new-name'].value,
+      restaurant: event.target['new-restaurant'].value,
+      image: event.target['new-image'].value,
+      rating: event.target['new-rating'].value,
+      comment: event.target['new-comment'].value,
+    };
+
+    fetch('http://localhost:3000/ramens', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newRamen),
     })
-    .catch(console.error);
-};
+      .then(response => response.json())
+      .then(displayRamen)
+      .catch(error => console.error('Error adding new ramen:', error));
 
-const main = () => {
-  displayRamens();
-  addSubmitListener();
-};
+    event.target.reset();
+  };
 
-main();
-
-// Export functions for testing
-export {
-  displayRamens,
-  addSubmitListener,
-  handleClick,
-  main,
-};
+  newRamenForm.addEventListener('submit', handleSubmit);
+  fetchRamens();
+});
