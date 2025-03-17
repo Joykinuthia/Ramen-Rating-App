@@ -12,6 +12,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
   }
   
   header {
@@ -25,7 +26,6 @@
     display: flex;
     overflow-x: auto;
     margin: 1rem 0;
-    max-width: calc(100vw - 2rem);
   }
   
   #ramen-menu img {
@@ -35,9 +35,20 @@
     cursor: pointer;
   }
   
-  #ramen-menu img:last-child {
-    margin-right: 0;
+  .ramen-images img {
+    width: 120px;
+    height: 120px;
+    margin: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 4px solid transparent;
+    transition: transform 0.2s ease;
   }
+
+  .ramen-images img:hover {
+    transform: scale(1.1);
+  }
+
   
   #ramen-detail {
     position: relative;
@@ -51,7 +62,6 @@
   .restaurant {
     position: absolute;
     left: 10px;
-    padding: 0.25rem 5rem 0.25rem 1rem;
     background-color: rgba(255, 255, 255, 0.8);
   }
   
