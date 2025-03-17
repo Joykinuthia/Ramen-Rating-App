@@ -4,48 +4,63 @@ const ramens = [
     { id: 3, name: "Tonkotsu Ramen", restaurant: "Ramen-ya", image: "tonkotsu.jpg" }
  ];
 
- function displayRamens() {
+const handleClick = (ramen) => {
+    document.querySelector("#ramen-detail .detail-image").src = ramen.image;
+    document.querySelector("#ramen-detail .detail-image").alt = ramen.name;
+    document.querySelector("#ramen-detail .name").innerText = ramen.name;
+    document.querySelector("#ramen-detail .restaurant").innerText = ramen.restaurant;
+    document.getElementById("rating-display").innerText = ramen.rating;
+    document.getElementById("comment-display").innerText = ramen.comment;
+  };
+  
+  const displayRamen = (ramenItem) => {
     const ramenMenu = document.getElementById("ramen-menu");
-    ramenMenu.innerHTML = "";
-
-    ramens.forEach(ramen => {
-        const img = document.createElement("img");
-        img.src = ramen.image;
-        img.alt = ramen.name;
-        img.addEventListener("click", () =>
-    displayRamensDetails(ramen));
-        ramenMenu.appendChild(img);
-    });
-    if (ramens.length > o) displayRamensDetails(ramens[0])
- }
-
- function displayRamenDetails(ramen) {
-    document.getElementById("ramen-image").scr = ramen.image;
-    document.getElementById("ramen-name").textContent = ramen.name;
-    document.getElementById("ramen-restaurant").textContent = ramen.restaurant;
-    document.getElementById("ramen-rating").textContent = ramen.rating;
-    document.getElementById("ramen-comment").textContent = ramen.comment;
- }
-
-function addSubmitListener() {
-    document.getElementById("new-ramen-form").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const newRamen = {
-            id: ramens.length +1,
-            name: document.getElementById("name").value,
-            restaurant: document.getElementById("restaurant").value,
-            image: document.getElementById("image-url").value,
-            rating: document.getElementById("rating").value,
-            comment: dicument.getElementById("comment").value,
-        };
-        ramens.push(newRamen);
-        displayRamens();
-    })
-}
-
-function main() {
+    const ramenImg = document.createElement("img");
+    ramenImg.src = ramenItem.image;
+    ramenImg.alt = ramenItem.name;
+    ramenImg.classList.add("image-slider");
+    ramenImg.addEventListener("click", () => handleClick(ramenItem));
+    ramenMenu.appendChild(ramenImg);
+  };
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const newRamenItem = {
+      name: form["new-name"].value,
+      restaurant: form.restaurant.value,
+      image: form.image.value,
+      rating: form.rating.value,
+      comment: form["new-comment"].value,
+    };
+    displayRamen(newRamenItem);
+    form.reset();
+  };
+  
+  const addSubmitListener = () => {
+    document.querySelector("#new-ramen").addEventListener("submit", handleSubmit);
+  };
+  
+  const displayRamens = () => {
+    fetch("http://localhost:3000/ramens")
+      .then((response) => response.json())
+      .then((ramens) => {
+        document.getElementById("ramen-menu").innerHTML = "";
+        ramens.forEach(displayRamen);
+      })
+      .catch(console.error);
+  };
+  
+  const main = () => {
     displayRamens();
     addSubmitListener();
-}
-
-document.addEventListener("DOMContentLoaded", main);
+  };
+  
+  main();
+  
+  export {
+    displayRamens,
+    addSubmitListener,
+    handleClick,
+    main,
+  };

@@ -7,31 +7,45 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to Ramen Rating App</h1>
+    <header>
+        <h3>Welcome to Ramen Rating App</h3>
+    </header>
+    
 
     <div id="ramen-menu">
     </div>
 
     <div id="ramen-detail">
-        <h2 id="ramen-name">Choose a Ramen</h2>
-        <p id="ramen-restaurant"></p>
-        <img id="ramen-image" src="https://moringa.instructure.com/courses/967/files/517801/preview" alt="Image of Ramen">
-        <img id="ramen-image" src="https://moringa.instructure.com/courses/967/files/517800/preview" alt="Image of Ramen">
-        <img id="ramen-image" src="https://moringa.instructure.com/courses/967/files/517799/preview" alt="Image of Ramen">
-        <img id="ramen-image" src="https://moringa.instructure.com/courses/967/files/517798/preview" alt="Image of Ramen">
-        <img id="ramen-image" src="https://moringa.instructure.com/courses/967/files/517797/preview" alt="Image of Ramen">
-        <p>Rating: <span id="ramen-rating"></span></p>
-        <p>Comment: <span id="ramen-comment"></span></p>
+        <img class="detail-image" src="./assets/image-placeholder.jpg" alt="Image of Ramen" />
+        <h2 class="ramen-name">Choose a Ramen</h2>
+        <h3 class="restaurant">ramen-restaurant</h3>
+        
+    </div>
+       
+    <h3>Rating:</h3>
+    <p>
+      <span id='rating-display'>ramen-rating</span> / 10
+    </p>
+    <h3>Comment:</h3>
+    <p id='comment-display'>
+        ramen-comment
+    </p>
         
     </div>
     <form id="new-ramen-form">
-        <h2>Add New Ramen</h2>
-        <input type="text" id="new-name" placeholder="Ramen Name" required>
-        <input type="text" id="new-restaurant" placeholder="Restaurant Name" required>
-        <input type="url" id="new-image" placeholder="Image URL" required>
-        <input type="number" id="new-rating" placeholder="Rating(1-5)" required min="1" max="5">
-        <input type="text" id="new-comment" placeholder="Comment" required>
-        <button type="submit">Add Ramen</button>
+        <h4>Add New Ramen</h4>
+        <label for="new-name">Name:</label>
+        <input type="text" name="name" id="new-name"/>
+        <label for="new-restaurant">Restaurant:</label>
+        <input type="text" name="restaurant" id="new-restaurant"/>
+        <label for="new-image">Image:</label>
+        <input type="text" name="image" id="new-image"/>
+        <label for="new-rating">Rating</label>
+        <input type="number" name="rating" id="new-rating"/>
+        <label for="new-comment">Comment</label>
+        <textarea name="new-comment" name="new-comment" id="new-comment"></textarea>
+        <input type="submit" id="submit-button" value="Create"/>
+        
     </form>
 
 
